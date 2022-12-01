@@ -1,5 +1,4 @@
 # AI-recognition
-# 12/1 AI & Applications assignment page
 
 ## Title of out project
 
