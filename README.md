@@ -8,8 +8,9 @@
 
 ---
 
-| 이석철 (SUK CHEOL LEE) | Dept of. Information System | tjrcjf9@gmail.com |
+| Name | Department | E-mail |
 | --- | --- | --- |
+| 이석철 (SUK CHEOL LEE) | Dept of. Information System | tjrcjf9@gmail.com |
 | 이하늘 (HA NUEL LEE) | Dept of. Information System | ezzeezz@naver.com |
 | 정세희 (SE HEE JEONG) | Dept of. Information System | sjsk04230000@hanyang.ac.kr |
 | 조준상 (JUN SANG CHO) | Dept of. Information System | cjsjustin99@naver.com |
