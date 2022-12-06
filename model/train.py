@@ -29,11 +29,12 @@ def main():
     model_args, data_args, training_args = parser.parse_args_into_dataclasses()
     #training_args.per_device_train_batch_size = 4
     # WandB Init
-    project = "test-project-CG"  
-    entity_name = "level3-nlp-09"
+    
+    project = "Memento-men4"  
+    entity_name = "AI-recognition"
     display_name =  f"{model_args.model_name_or_path}"
     wandb.init(project=project, entity=entity_name, name=display_name)
-    # if config in wandb change
+
     config = wandb.config
     if len(dict(config)) != 0:
         training_args.learning_rate= config["learning_rate"]
