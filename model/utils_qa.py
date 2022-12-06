@@ -1,17 +1,3 @@
-# coding=utf-8
-# Copyright 2020 The HuggingFace Team All rights reserved.
-#
-# Licensed under the Apache License, Version 2.0 (the 'License');
-# you may not use this file except in compliance with the License.
-# You may obtain a copy of the License at
-#
-#     http://www.apache.org/licenses/LICENSE-2.0
-#
-# Unless required by applicable law or agreed to in writing, software
-# distributed under the License is distributed on an 'AS IS' BASIS,
-# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-# See the License for the specific language governing permissions and
-# limitations under the License.
 """
 Pre-processing
 Post-processing utilities for question answering.
@@ -37,10 +23,8 @@ logger = logging.getLogger(__name__)
 def set_seed(seed: int = 42):
     """
     seed 고정하는 함수 (random, numpy, torch)
-
-    Args:
-        seed (:obj:`int`): The seed to set.
     """
+    
     random.seed(seed)
     np.random.seed(seed)
     if is_torch_available():
@@ -65,35 +49,8 @@ def postprocess_qa_predictions(
 ):
     """
     Post-processes : qa model의 prediction 값을 후처리하는 함수
-    모델은 start logit과 end logit을 반환하기 때문에, 이를 기반으로 original text로 변경하는 후처리가 필요함
-
-    Args:
-        examples: 전처리 되지 않은 데이터셋 (see the main script for more information).
-        features: 전처리가 진행된 데이터셋 (see the main script for more information).
-        predictions (:obj:`Tuple[np.ndarray, np.ndarray]`):
-            모델의 예측값 :start logits과 the end logits을 나타내는 two arrays              첫번째 차원은 :obj:`features`의 element와 갯수가 맞아야함.
-        version_2_with_negative (:obj:`bool`, `optional`, defaults to :obj:`False`):
-            정답이 없는 데이터셋이 포함되어있는지 여부를 나타냄
-        n_best_size (:obj:`int`, `optional`, defaults to 20):
-            답변을 찾을 때 생성할 n-best prediction 총 개수
-        max_answer_length (:obj:`int`, `optional`, defaults to 30):
-            생성할 수 있는 답변의 최대 길이
-        null_score_diff_threshold (:obj:`float`, `optional`, defaults to 0):
-            null 답변을 선택하는 데 사용되는 threshold
-            : if the best answer has a score that is less than the score of
-            the null answer minus this threshold, the null answer is selected for this example (note that the score of
-            the null answer for an example giving several features is the minimum of the scores for the null answer on
-            each feature: all features must be aligned on the fact they `want` to predict a null answer).
-            Only useful when :obj:`version_2_with_negative` is :obj:`True`.
-        output_dir (:obj:`str`, `optional`):
-            아래의 값이 저장되는 경로
-            dictionary : predictions, n_best predictions (with their scores and logits) if:obj:`version_2_with_negative=True`,
-            dictionary : the scores differences between best and null answers
-        prefix (:obj:`str`, `optional`):
-            dictionary에 `prefix`가 포함되어 저장됨
-        is_world_process_zero (:obj:`bool`, `optional`, defaults to :obj:`True`):
-            이 프로세스가 main process인지 여부(logging/save를 수행해야 하는지 여부를 결정하는 데 사용됨)
     """
+    
     assert (
         len(predictions) == 2
     ), "`predictions` should be a tuple with two elements (start_logits, end_logits)."
