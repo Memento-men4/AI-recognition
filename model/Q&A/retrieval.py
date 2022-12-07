@@ -85,7 +85,7 @@ class SparseRetrieval:
 
         assert (
             self.p_embedding is not None
-        ), "get_sparse_embedding() 메소드를 먼저 수행해줘야합니다."
+        ), 
 
         if isinstance(query_or_dataset, str):
             doc_scores, doc_indices = self.get_relevant_doc(
@@ -136,16 +136,6 @@ class SparseRetrieval:
         self, query: str, k: Optional[int] = 1
     ) -> Tuple[List, List]:
 
-        """
-        Arguments:
-            query (str):
-                하나의 Query를 받습니다.
-            k (Optional[int]): 1
-                상위 몇 개의 Passage를 반환할지 정합니다.
-        Note:
-            vocab 에 없는 이상한 단어로 query 하는 경우 assertion 발생 (예) 뙣뙇?
-        """
-
         with timer("transform"):
             query_vec = self.tfidfv.transform([query])
         assert (
@@ -195,27 +185,7 @@ class SparseRetrieval:
     def retrieve_faiss(
         self, query_or_dataset: Union[str, Dataset], topk: Optional[int] = 1
     ) -> Union[Tuple[List, List], pd.DataFrame]:
-
-        """
-        Arguments:
-            query_or_dataset (Union[str, Dataset]):
-                str이나 Dataset으로 이루어진 Query를 받습니다.
-                str 형태인 하나의 query만 받으면 `get_relevant_doc`을 통해 유사도를 구합니다.
-                Dataset 형태는 query를 포함한 HF.Dataset을 받습니다.
-                이 경우 `get_relevant_doc_bulk`를 통해 유사도를 구합니다.
-            topk (Optional[int], optional): Defaults to 1.
-                상위 몇 개의 passage를 사용할 것인지 지정합니다.
-
-        Returns:
-            1개의 Query를 받는 경우  -> Tuple(List, List)
-            다수의 Query를 받는 경우 -> pd.DataFrame: [description]
-
-        Note:
-            다수의 Query를 받는 경우,
-                Ground Truth가 있는 Query (train/valid) -> 기존 Ground Truth Passage를 같이 반환합니다.
-                Ground Truth가 없는 Query (test) -> Retrieval한 Passage만 반환합니다.
-            retrieve와 같은 기능을 하지만 faiss.indexer를 사용합니다.
-        """
+        
 
         assert self.indexer is not None, "build_faiss()를 먼저 수행해주세요."
 
