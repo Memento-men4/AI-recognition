@@ -77,6 +77,3 @@ $ python3 evaluate_v1_0.py {$data_dir}/KorQuAD_v1.0_dev.json {$output_dir}/predi
 - [KoBERT](https://github.com/SKTBrain/KoBERT)
 - [Huggingface Transformers](https://github.com/huggingface/transformers)
 - [KorQuAD](https://korquad.github.io/category/1.0_KOR.html)
-- [KorQuAD by graykode](https://github.com/graykode/KorQuAD-beginner)
-- [KorQuAD by lyeoni](https://github.com/lyeoni/KorQuAD)
-- [KoBert shows low performance on KorQuad](https://github.com/SKTBrain/KoBERT/issues/1)
