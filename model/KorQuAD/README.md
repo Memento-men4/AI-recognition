@@ -1,7 +1,7 @@
 # KoBERT-KorQuAD
 
 - Korean MRC (KorQuAD) with KoBERT
-- 🤗Huggingface Tranformers🤗 라이브러리를 이용하여 구현
+- Huggingface Tranformers 라이브러리를 이용하여 구현
 
 ## Dependencies
 
