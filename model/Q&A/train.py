@@ -202,8 +202,6 @@ def run_mrc(
             load_from_cache_file=not data_args.overwrite_cache,
         )
 
-    # Validation preprocessing
-    # truncation과 padding을 통해 toknization 진행, stride를 이용해 overflow를 유지하며 각 example들은 이전의 context와 조금씩 겹침
     def prepare_validation_features(examples):
         tokenized_examples = tokenizer(
             examples[question_column_name if pad_on_right else context_column_name],
