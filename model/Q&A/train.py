@@ -72,8 +72,6 @@ def main():
         model_args.tokenizer_name
         if model_args.tokenizer_name is not None
         else model_args.model_name_or_path,
-        # 'use_fast' = True: rust로 구현된 tokenizer를 사용
-        # False로 설정할 경우 python으로 구현된 tokenizer를 사용할 수 있으며, rust version이 비교적 속도가 빠릅니다.
         use_fast=True,
     )
     model = AutoModelForQuestionAnswering.from_pretrained(
@@ -112,15 +110,12 @@ def run_mrc(
     context_column_name = "context" if "context" in column_names else column_names[1]
     answer_column_name = "answers" if "answers" in column_names else column_names[2]
 
-    # Padding Option: (Question|Context), (Context|Question)
     pad_on_right = tokenizer.padding_side == "right"
     # Check Error
     last_checkpoint, max_seq_length = check_no_error(
         data_args, training_args, datasets, tokenizer
     )
 
-    # Train Preprocessing
-    # truncation과 padding을 통해 toknization 진행, stride를 이용해 overflow를 유지하며 각 example들은 이전의 context와 조금씩 겹침
     def prepare_train_features(examples):
         tokenized_examples = tokenizer(
             examples[question_column_name if pad_on_right else context_column_name],
@@ -134,15 +129,12 @@ def run_mrc(
             padding="max_length" if data_args.pad_to_max_length else False,
         )
 
-        # 길이가 긴 context가 등장할 경우 truncate를 진행해야하므로, 해당 데이터셋을 찾을 수 있도록 mapping 가능한 값이 필요합니다.
-        # token의 캐릭터 단위 position를 찾을 수 있도록 offset mapping을 사용 start_positions과 end_positions을 찾는데 도움이 된다.
         sample_mapping = tokenized_examples.pop("overflow_to_sample_mapping")
         offset_mapping = tokenized_examples.pop("offset_mapping")
         tokenized_examples = set_tokenized_examples_start_end_pos(tokenized_examples, sample_mapping, offset_mapping, examples)
         return tokenized_examples
 
     def set_tokenized_examples_start_end_pos(tokenized_examples, sample_mapping, offset_mapping, examples):
-        # "start position", "end position" label
         tokenized_examples["start_positions"] = []
         tokenized_examples["end_positions"] = []
 
@@ -228,8 +220,6 @@ def run_mrc(
         sample_mapping = tokenized_examples.pop("overflow_to_sample_mapping")
         offset_mapping = tokenized_examples["offset_mapping"]
         tokenized_examples = set_tokenized_examples_start_end_pos(tokenized_examples, sample_mapping, offset_mapping, examples)
-        # evaluation을 위해, prediction을 context의 substring으로 변환해야합니다.
-        # corresponding example_id를 유지하고 offset mappings을 저장해야합니다.
         tokenized_examples["example_id"] = []
 
         for i in range(len(tokenized_examples["input_ids"])):
@@ -259,14 +249,11 @@ def run_mrc(
             remove_columns=column_names,
             load_from_cache_file=not data_args.overwrite_cache,
         )
-
-    # Data collator
-    # flag가 True이면 이미 max length로 padding된 상태. 아니라면 data collator에서 padding을 진행 필요
+        
     data_collator = DataCollatorWithPadding(
         tokenizer, pad_to_multiple_of=8 if training_args.fp16 else None
     )
 
-# Post-processing: start logits과 end logits을 original context의 정답과 match시킵니다.
     def post_processing_function(examples, features, predictions, training_args):
 
         predictions = postprocess_qa_predictions(
