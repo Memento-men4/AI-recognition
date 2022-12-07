@@ -1,4 +1,4 @@
-""" Finetuning the library models for question-answering on SQuAD (DistilBERT, Bert, XLM, XLNet)."""
+""" Finetuning the library models for question-answering on SQuAD """
 
 import argparse
 import glob
