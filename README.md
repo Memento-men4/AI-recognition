@@ -194,7 +194,6 @@
     
     
     | pandas | numpy | torch | transformers | tokenizers |
-    | --- | --- | --- | --- | --- |
     | QuestionAnsweringTrainer | postprocess_qa_predictions | torchtext | Elasticsearch | pytorch-lightning
      |
     | torchmetrics | tokenizer | List | Dict | tqdm.notebook |
