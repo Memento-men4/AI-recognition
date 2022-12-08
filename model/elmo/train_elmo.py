@@ -5,14 +5,10 @@ from bilm.data import BidirectionalLMDataset
 
 
 def main(args):
-    # load the vocab
     vocab = load_vocab(args.vocab_file, 30)
 
-    # define the options
-    batch_size = 128  # batch size for each GPU
+    batch_size = 128 
     n_gpus = args.n_gpus
-
-    # number of tokens in training data (this for 1B Word Benchmark)
     n_train_tokens = 768648884
 
     options = {
