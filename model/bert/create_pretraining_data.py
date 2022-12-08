@@ -1,19 +1,3 @@
-# coding=utf-8
-# Copyright 2018 The Google AI Language Team Authors.
-#
-# Licensed under the Apache License, Version 2.0 (the "License");
-# you may not use this file except in compliance with the License.
-# You may obtain a copy of the License at
-#
-#     http://www.apache.org/licenses/LICENSE-2.0
-#
-# Unless required by applicable law or agreed to in writing, software
-# distributed under the License is distributed on an "AS IS" BASIS,
-# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-# See the License for the specific language governing permissions and
-# limitations under the License.
-"""Create masked LM/next sentence masked_lm TF examples for BERT."""
-
 from __future__ import absolute_import
 from __future__ import division
 from __future__ import print_function
@@ -179,12 +163,6 @@ def create_training_instances(input_files, tokenizer, max_seq_length,
   """Create `TrainingInstance`s from raw text."""
   all_documents = [[]]
 
-  # Input file format:
-  # (1) One sentence per line. These should ideally be actual sentences, not
-  # entire paragraphs or arbitrary spans of text. (Because we use the
-  # sentence boundaries for the "next sentence prediction" task).
-  # (2) Blank lines between documents. Document boundaries are needed so
-  # that the "next sentence prediction" task doesn't span between documents.
   for input_file in input_files:
     with tf.gfile.GFile(input_file, "r") as reader:
       while True:
@@ -223,25 +201,13 @@ def create_instances_from_document(
   """Creates `TrainingInstance`s for a single document."""
   document = all_documents[document_index]
 
-  # Account for [CLS], [SEP], [SEP]
+
   max_num_tokens = max_seq_length - 3
 
-  # We *usually* want to fill up the entire sequence since we are padding
-  # to `max_seq_length` anyways, so short sequences are generally wasted
-  # computation. However, we *sometimes*
-  # (i.e., short_seq_prob == 0.1 == 10% of the time) want to use shorter
-  # sequences to minimize the mismatch between pre-training and fine-tuning.
-  # The `target_seq_length` is just a rough target however, whereas
-  # `max_seq_length` is a hard limit.
   target_seq_length = max_num_tokens
+  
   if rng.random() < short_seq_prob:
     target_seq_length = rng.randint(2, max_num_tokens)
-
-  # We DON'T just concatenate all of the tokens from a document into a long
-  # sequence and choose an arbitrary split point because this would make the
-  # next sentence prediction task too easy. Instead, we split the input into
-  # segments "A" and "B" based on the actual "sentences" provided by the user
-  # input.
   instances = []
   current_chunk = []
   current_length = 0
@@ -252,8 +218,6 @@ def create_instances_from_document(
     current_length += len(segment)
     if i == len(document) - 1 or current_length >= target_seq_length:
       if current_chunk:
-        # `a_end` is how many segments from `current_chunk` go into the `A`
-        # (first) sentence.
         a_end = 1
         if len(current_chunk) >= 2:
           a_end = rng.randint(1, len(current_chunk) - 1)
@@ -269,10 +233,6 @@ def create_instances_from_document(
           is_random_next = True
           target_b_length = target_seq_length - len(tokens_a)
 
-          # This should rarely go for more than one iteration for large
-          # corpora. However, just to be careful, we try to make sure that
-          # the random document is not the same as the document
-          # we're processing.
           for _ in range(10):
             random_document_index = rng.randint(0, len(all_documents) - 1)
             if random_document_index != document_index:
