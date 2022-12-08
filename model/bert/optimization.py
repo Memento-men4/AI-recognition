@@ -1,19 +1,3 @@
-# coding=utf-8
-# Copyright 2018 The Google AI Language Team Authors.
-#
-# Licensed under the Apache License, Version 2.0 (the "License");
-# you may not use this file except in compliance with the License.
-# You may obtain a copy of the License at
-#
-#     http://www.apache.org/licenses/LICENSE-2.0
-#
-# Unless required by applicable law or agreed to in writing, software
-# distributed under the License is distributed on an "AS IS" BASIS,
-# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-# See the License for the specific language governing permissions and
-# limitations under the License.
-"""Functions and classes related to optimization (weight updates)."""
-
 from __future__ import absolute_import
 from __future__ import division
 from __future__ import print_function
@@ -53,9 +37,6 @@ def create_optimizer(loss, init_lr, num_train_steps, num_warmup_steps, use_tpu):
     learning_rate = (
         (1.0 - is_warmup) * learning_rate + is_warmup * warmup_learning_rate)
 
-  # It is recommended that you use this optimizer for fine tuning, since this
-  # is how the model was trained (note that the Adam m/v variables are NOT
-  # loaded from init_checkpoint.)
   optimizer = AdamWeightDecayOptimizer(
       learning_rate=learning_rate,
       weight_decay_rate=0.01,
@@ -70,15 +51,13 @@ def create_optimizer(loss, init_lr, num_train_steps, num_warmup_steps, use_tpu):
   tvars = tf.trainable_variables()
   grads = tf.gradients(loss, tvars)
 
-  # This is how the model was pre-trained.
+
   (grads, _) = tf.clip_by_global_norm(grads, clip_norm=1.0)
 
   train_op = optimizer.apply_gradients(
       zip(grads, tvars), global_step=global_step)
 
-  # Normally the global step update is done inside of `apply_gradients`.
-  # However, `AdamWeightDecayOptimizer` doesn't do this. But if you use
-  # a different optimizer, you should probably take this line out.
+
   new_global_step = global_step + 1
   train_op = tf.group(train_op, [global_step.assign(new_global_step)])
   return train_op
@@ -136,13 +115,6 @@ class AdamWeightDecayOptimizer(tf.train.Optimizer):
 
       update = next_m / (tf.sqrt(next_v) + self.epsilon)
 
-      # Just adding the square of the weights to the loss function is *not*
-      # the correct way of using L2 regularization/weight decay with Adam,
-      # since that will interact with the m and v parameters in strange ways.
-      #
-      # Instead we want ot decay the weights in a manner that doesn't interact
-      # with the m/v parameters. This is equivalent to adding the square
-      # of the weights to the loss with plain (non-momentum) SGD.
       if self._do_use_weight_decay(param_name):
         update += self.weight_decay_rate * param
 
