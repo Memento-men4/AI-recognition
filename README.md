@@ -4,17 +4,6 @@
 
 ### *Memento - The Technical Solution for ‘Youngzheimer’*
 
-## Members
-
----
-
-| Name | Department | E-mail |
-| --- | --- | --- |
-| 이석철 (SUK CHEOL LEE) | Dept of. Information System | tjrcjf9@gmail.com |
-| 이하늘 (HA NUEL LEE) | Dept of. Information System | ezzeezz@naver.com |
-| 정세희 (SE HEE JEONG) | Dept of. Information System | sjsk04230000@hanyang.ac.kr |
-| 조준상 (JUN SANG CHO) | Dept of. Information System | cjsjustin99@naver.com |
-
 ## **I. Introduction**
 
 ---
@@ -34,12 +23,14 @@
 - **일상 타임라인 기반 Datasets 직접 제작 (약, 1500개)**
     - Reason 1 : 사용자가 시간대별로 무슨 일이 있었는지 가볍게 이야기 하는 일상 타임라인에 대한 데이터가 절대적으로 부족함
     - Reason 2 : 저작권 문제를 해결할 수 있는 충분한 타임라인 Dataset이 존재하지 않음
+    
 - **전처리(Preprocessing)**
     1. 불필요한 개행 문자 제거
     2. 답변 내 좌우 공백 제거
     3. Tokenizer 적용 후 데이터 수정
     4. 글자 수 6개 이하 제거
     5. 이상치 제거
+    
 - **전체 Datasets에서 Haystack annotationn Tool을 사용하여 질문지와 답변에 대한 Q&A Labeling 데이터 제작 (약, 100개)**
     
     **[육하원칙에 입각한 Q&A]**
@@ -66,7 +57,7 @@
     
     → 혼자일 수도 있기 때문에 No Question/No answer일 수 있음
     
-- **Question & Answer Labeling 데이터를 통한 데이터셋 Augmentation (약, 1000개 작업중)**
+- **Question & Answer Labeling 데이터를 통한 데이터셋 Augmentation**
     1. (기존 Q&A 라벨링된 데이터를 활용하여) Question이 뽑히는 규칙 확인
         1. 학습 데이터 셋 비율 (Train : 80% / Val : 10% / Test : 10%)
         2. Question이 뽑히는 규칙 학습 (RoBERTa 모델) 
@@ -75,13 +66,18 @@
         1. 학습 데이터 셋 비율 (Train : 80% / Val : 10% / Test : 10%)
         2. Answer이 뽑히는 규칙 학습 (RoBERTa 모델)
         3. Answer Extenstion → Data Augmentation
+        
+- **Pytorch Lightning Dataset 활용**
+    
+    답변 인식 질문 생성을 원하지 않을 때 특정 `sep` token을 사용하여 예측하려는 부분을 분리하고 `MASK` token을 통해 답변을 대신 전달 하고자 함
+    
 - **Pretrained Model 제작**
     - KorQuAD 1.0으로 완성된 Q&A 데이터에 Pretrain
     - KorQuAD : 한글의 단어, 문장 간 유사도 계산, 다른 모형의 입력으로 사용가능하도록 하는 한글 기계독해를 위한 Datasets
 
 **✓ 데이터 셋 구축 개수 : 110개의 타임라인 데이터를 六何原則(육하원칙)별로 나눈  651개의 지문**
 
-**✓ 데이터 셋 개수 : 지문(Context)-질문(Question)-답변(Answer)형식의 MRC(주어진 상황에서 질의응답함) 데이터 (약, 1000개, 진행중)**
+**✓ 데이터 셋 개수 : 지문(Context)-질문(Question)-답변(Answer)형식의 MRC(주어진 상황에서 질의응답함) 데이터**
 
 ## **III. Methodology**
 
@@ -92,8 +88,10 @@
 ![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/b0864276-a42d-4f7a-99c4-caf9d37cfbab/Untitled.png)
 
 - **CDQA(Closed Domain Qustion Answering: 특정 Domain의 Database에서 Q&A를 수행하는 Task)**
-    1. 사용자가 녹음한 타임라인을 INPUT으로 받음
-    2. Retriever와 Reader Model을 거쳐 질문과 대답을 반환
+    1. 사용자가 녹음한 타임라인 음성 text를 INPUT으로 받음
+    2. Retriever와 Reader Model을 거쳐 질문과 대답을 즉각 생성
+    3. DATABASE에 하루동안의 질문과 대답을 저장
+    4. 퀴즈 요청 event가 발생하면 사용자에게 DATABASE에 저장된 퀴즈를 AI SPEAKER을 통해 출제 
     
 - **Retriever Model**
     - Elasticsearch
@@ -110,12 +108,13 @@
             - TF(Term Frequency) : 특정 문서에서 특정 단어의 등장 빈도
             - IDF(Inverse Document Frequency) : 전체 문서에서 특정 단어의 등장 빈도의 역수
             - BM25 : TF-IDF의 parameter를 변경하여 Best Match를 찾음
-- Reader Model
+
+- **Reader Model**
     - RoBERTa-Large(MRC SOTA) model
     
     ![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/3527def5-0db2-444b-a4c6-4af310b6f7a2/Untitled.png)
     
-    - QA Task에 최적화 시키기 위해 QA 데이터 셋을 **KorQuAD 1.0** 으로 Pretrain 학습시킴(한글 Corpus에 대한 Embedding)
+    - QA Task에 최적화 시키기 위해 QA 데이터 셋을 **KorQuAD 1.0** 으로 Pretrained 학습시킴(한글 Corpus에 대한 Embedding)
         
         ❕→ KorQuAD + Our Data
         
@@ -128,46 +127,86 @@
 
 ---
 
-- **Retriever model 평가 지표**
+- **Our** **Model** **Evaluation**
     
-    Retrieval accuracy : retriever의 성능 측정을 위한 metric
+    **[Count of Question]**
     
-    ![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/ec031c16-a504-413b-8054-2711b9d526bb/Untitled.png)
+    ![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/edf6dc6a-a436-4826-a9af-17ba3d06686b/Untitled.png)
     
-- **최종 Retriever model의 Retrieval accuracy**
+    **[Boxplot of Question]**
     
-    → Accuracy와 Turn-Around Time(사용자가 타임라인을 녹음하고, 결과를 내기까지 걸리는 시간)을 고려해야 함
+    ![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/52f42161-f048-4b5d-9b4d-434a625d6b14/Untitled.png)
     
-    → 진행중
+    **[Count of Context]**
     
-- **질문 유형별 분포 확인**
+    ![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/d25181f8-8742-41c6-b5c0-3e0eaaf16909/Untitled.png)
     
-    →진행중
+    **[Boxplot of Context]**
     
+    ![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/38d8cf0b-7d91-43ed-8619-75de53ae0ab5/Untitled.png)
+    
+    **[Count of Answer]**
+    
+    ![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/1feb6e54-388f-4a5c-9cac-ed6afe3ab1ef/Untitled.png)
+    
+    **[Boxplot of Answer]**
+    
+    ![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/7456f563-fb28-4657-ac00-48566638b7f2/Untitled.png)
+    
+    **[WordCloud of Questions, Contexts, Answers]**
+    
+    ![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/8f00fd9b-5fe5-4ca5-bb78-86b50458bfa5/Untitled.png)
+    
+
 - **두 번의 Fine-tuning 실험 성능평가 결과**
+    
+    ![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/cd916063-1a18-4a12-ad87-5fff22ea23a3/Untitled.png)
+    
     - RoBERTa-large(KorQuAD + Out Data)의 F1 Score 확인
     - Exact Match (EM): 모델의 예측과, 실제 답이 정확하게 일치할 때만 점수 부여
-        - 예측이 정세희 이고, 답이 정세희 언니일 때 EM Score는 0점
+        - ex. 예측이 정세희 이고, 답이 정세희 언니일 때 EM Score는 0점
     - F1 score: Precision과 Recall을 계산하여 부분 점수를 제공
-        - 예측이 정세희 답이 정세희 언니일 때 F1 score 는 precision이 1, recall이 0.5이므로 0.67
+        - 실제 정답과 예측치의 겹치는 부분을 고려한 점수로, EM보다 완화된 평가 척도
+        - 영문과 달리 한국어에는, 어절(띄어쓰기 단위) 내 다양한 형태소 활용을 위해 점수가 다소 낮게 측정되므로, 음절(글자) 단위의 F1 Score를 사용
+        - ex. 예측이 정세희 답이 정세희 언니일 때 F1 score 는 precision이 1, recall이 0.5이므로 0.67
     
     → F1 Score을 주요 평가지표로 선정
     
-    → 진행중
+    [최종 모델의 평가 결과]
     
+    | F1 | EM |
+    | --- | --- |
+    | 79.7866 | 64.2857 |
 
 ## **V. Related Work (Ex. existing studies)**
 
 ---
 
-- **Tools, libraries, blogs, or any documentation that you have used to do this project.**
 - **Tools**
     1. Jupyter notebook
     2. Google colaboratory
     3. Docker
     4. Haystack(Q&A annotation Tool)
     5. Tensorflow
+    6. Pytorch
 
+- **Library**
+    
+    
+    | pandas | numpy | torch | transformers | tokenizers |
+    | --- | --- | --- | --- | --- |
+    | QuestionAnsweringTrainer | postprocess_qa_predictions | torchtext | Elasticsearch | pytorch-lightning
+     |
+    | torchmetrics | tokenizer | List | Dict | tqdm.notebook |
+    | json | Path | Dataset | DataLoader | re |
+    | os | random | Counter | string | argparse |
+    | sys | glob | logging | timeit | eval_during_train |
+    | Optional | WEIGHTS_NAME | AdamW | AlbertForQuestionAnswering | AlbertTokenizer |
+    | BertConfig | BertForQuestionAnswering | BertTokenizer | DistilBertConfig | DistilBertForQuestionAnswering |
+    | RobertaConfig | RobertaForQuestionAnswering | RobertaTokenizer | XLMConfig | XLMForQuestionAnswering |
+    | XLMTokenizer | XLNetConfig | XLNetForQuestionAnswering | XLNetTokenizer | get_linear_schedule_with_warmup |
+    | squad_convert_examples_to_features | SquadResult | SquadV1Processor | SquadV2Processor | KoBertTokenizer |
+    | PredictionOutput | Trainer | is_torch_tpu_available | wandb_mixin | tensorflow |
 - **Documentation**
     1. Fine-tuning Strategies for Domain Specific Question Answering under Low Annotation Budget Constraints
         
@@ -181,6 +220,10 @@
         
         [AEDA: An Easier Data Augmentation Technique for Text Classification](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/7fb5a8d5-41e2-422c-8caa-862104e91bcb/2108.13230.pdf)
         
+    4. RoBERTa: A Robustly Optimized BERT Pretraining Approach
+        
+        [RoBERTa: A Robustly Optimized BERT Pretraining Approach](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/609a64ef-f9b1-4914-a040-5327a3be0d7b/1907.11692.pdf)
+        
 
 ## **VI. Conclusion: Discussion**
 
@@ -193,7 +236,7 @@
 
 ❗**새로운 데이터셋 제시**
 
-- **Closed Domain QA모델 생성에 도움을 줌 ( Open Domain QA X)**
+- **Closed Domain QA모델 생성에 도움을 줌 ( Open Domain QA X )**
 
 ❗**추후 발전 방향** 
 
@@ -202,3 +245,4 @@
 - **일반화된 데이터를 통한 학습**
 - **질문 유형의 다양화**
 - **답변에 따른 감성분석 예정**
+- **답변 결과에 따른 질문 사용자화**
