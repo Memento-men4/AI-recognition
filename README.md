@@ -1,7 +1,7 @@
 Tech blog link : https://url.kr/qhn9ab
 
 
-## **II. Datasets**
+## **I. Datasets**
 
 ---
 
@@ -64,7 +64,7 @@ Tech blog link : https://url.kr/qhn9ab
 
 **✓ 데이터 셋 개수 : 지문(Context)-질문(Question)-답변(Answer)형식의 MRC(주어진 상황에서 질의응답함) 데이터**
 
-## **III. Methodology**
+## **II. Methodology**
 
 ---
 
@@ -108,7 +108,7 @@ Tech blog link : https://url.kr/qhn9ab
         ❕→ RoBERTa-large (KorQuAD + Our Data)
         
 
-## **IV. Evaluation & Analysis**
+## **III. Evaluation & Analysis**
 
 ---
 
@@ -163,7 +163,7 @@ Tech blog link : https://url.kr/qhn9ab
     | --- | --- |
     | 79.7866 | 64.2857 |
 
-## **V. Related Work (Ex. existing studies)**
+## **IV. Related Work (Ex. existing studies)**
 
 ---
 
@@ -208,7 +208,7 @@ Tech blog link : https://url.kr/qhn9ab
         [RoBERTa: A Robustly Optimized BERT Pretraining Approach](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/609a64ef-f9b1-4914-a040-5327a3be0d7b/1907.11692.pdf)
         
 
-## **VI. Conclusion: Discussion**
+## **V. Conclusion: Discussion**
 
 ---
 
