@@ -1,4 +1,4 @@
-Tech blog link : https://mixolydian-bird-90f.notion.site/MeMento-83b77499ff8c49eca6740e7e6d039e13
+Tech blog link : https://url.kr/qhn9ab
 
 ## Title of out project
 
