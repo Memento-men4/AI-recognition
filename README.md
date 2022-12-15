@@ -1,11 +1,5 @@
 Tech blog link : https://url.kr/qhn9ab
 
-## Title of out project
-
----
-
-### *Memento - The Technical Solution for ‘Youngzheimer’*
-
 
 ## **II. Datasets**
 
