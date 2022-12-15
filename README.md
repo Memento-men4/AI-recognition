@@ -115,9 +115,8 @@ Tech blog link : https://url.kr/qhn9ab
 - **Our** **Model** **Evaluation**
     
     **[Count of Question]**
-    
-    ![image](https://user-images.githubusercontent.com/76215009/207837454-2662add4-9595-477f-9573-f746e6752c09.png
-    
+    ![image](https://user-images.githubusercontent.com/76215009/207837554-0e8cbaae-a335-4f9e-b172-0640271fc63e.png)
+
     **[Boxplot of Question]**
     
     ![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/52f42161-f048-4b5d-9b4d-434a625d6b14/Untitled.png)
