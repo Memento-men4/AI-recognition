@@ -70,7 +70,7 @@ Tech blog link : https://url.kr/qhn9ab
 
 ### [**모델 구조]**
 
-![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/b0864276-a42d-4f7a-99c4-caf9d37cfbab/Untitled.png)
+![image](https://user-images.githubusercontent.com/76215009/207838695-73042eae-b01b-4584-bd08-41a6a3305545.png)
 
 - **CDQA(Closed Domain Qustion Answering: 특정 Domain의 Database에서 Q&A를 수행하는 Task)**
     1. 사용자가 녹음한 타임라인 음성 text를 INPUT으로 받음
@@ -88,7 +88,7 @@ Tech blog link : https://url.kr/qhn9ab
         - 질문 Q와 Content간 유사도 계산
             - TF-IDF를 통한 계산
             
-            ![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/31654600-3a31-4f30-a1b1-afe3de3f1f30/Untitled.png)
+            ![image](https://user-images.githubusercontent.com/76215009/207838831-39ec91bf-997a-494c-8ecc-dea73fc5a81d.png)
             
             - TF(Term Frequency) : 특정 문서에서 특정 단어의 등장 빈도
             - IDF(Inverse Document Frequency) : 전체 문서에서 특정 단어의 등장 빈도의 역수
@@ -115,36 +115,37 @@ Tech blog link : https://url.kr/qhn9ab
 - **Our** **Model** **Evaluation**
     
     **[Count of Question]**
+    
     ![image](https://user-images.githubusercontent.com/76215009/207837554-0e8cbaae-a335-4f9e-b172-0640271fc63e.png)
 
     **[Boxplot of Question]**
     
-    ![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/52f42161-f048-4b5d-9b4d-434a625d6b14/Untitled.png)
-    
+    ![image](https://user-images.githubusercontent.com/76215009/207837720-5cc0747e-b856-478b-b818-b7f4f7f635c0.png)
+
     **[Count of Context]**
     
-    ![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/d25181f8-8742-41c6-b5c0-3e0eaaf16909/Untitled.png)
-    
+    ![image](https://user-images.githubusercontent.com/76215009/207837947-456291b6-0a59-44ae-af92-a1c8a39b35e0.png)
+
     **[Boxplot of Context]**
     
-    ![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/38d8cf0b-7d91-43ed-8619-75de53ae0ab5/Untitled.png)
+    ![image](https://user-images.githubusercontent.com/76215009/207838022-e74eab39-fad5-4988-adb5-26162db4d731.png)
     
     **[Count of Answer]**
     
-    ![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/1feb6e54-388f-4a5c-9cac-ed6afe3ab1ef/Untitled.png)
-    
+    ![image](https://user-images.githubusercontent.com/76215009/207838215-8686e610-5546-4c71-8289-151c1fed34fb.png)
+
     **[Boxplot of Answer]**
     
-    ![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/7456f563-fb28-4657-ac00-48566638b7f2/Untitled.png)
+    ![image](https://user-images.githubusercontent.com/76215009/207838313-f6283ed9-01cd-4b66-aab7-742d7207ce89.png)
     
     **[WordCloud of Questions, Contexts, Answers]**
     
-    ![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/8f00fd9b-5fe5-4ca5-bb78-86b50458bfa5/Untitled.png)
+    ![image](https://user-images.githubusercontent.com/76215009/207838411-55451335-9352-4859-b799-bdde4df0bbfe.png)
     
 
 - **두 번의 Fine-tuning 실험 성능평가 결과**
     
-    ![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/cd916063-1a18-4a12-ad87-5fff22ea23a3/Untitled.png)
+    ![image](https://user-images.githubusercontent.com/76215009/207838561-9347b8b0-9957-4b97-9da9-bf69db1a3255.png)
     
     - RoBERTa-large(KorQuAD + Out Data)의 F1 Score 확인
     - Exact Match (EM): 모델의 예측과, 실제 답이 정확하게 일치할 때만 점수 부여
