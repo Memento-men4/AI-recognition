@@ -116,7 +116,7 @@ Tech blog link : https://url.kr/qhn9ab
     
     **[Count of Question]**
     
-    ![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/edf6dc6a-a436-4826-a9af-17ba3d06686b/Untitled.png)
+    ![image](https://user-images.githubusercontent.com/76215009/207837454-2662add4-9595-477f-9573-f746e6752c09.png
     
     **[Boxplot of Question]**
     
