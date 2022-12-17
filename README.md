@@ -70,6 +70,7 @@ Tech blog link : https://url.kr/qhn9ab
 - Our LG Data : Overall_data : 648개
 
 <br>
+
 ## **II. Methodology**
 
 ---
@@ -108,6 +109,7 @@ Tech blog link : https://url.kr/qhn9ab
         ❕→ RoBERTa-large (KorQuAD + Our Data)
         
 <br>
+
 ## **III. Evaluation & Analysis**
 
 ---
@@ -133,6 +135,7 @@ Tech blog link : https://url.kr/qhn9ab
     | 79.7866 | 64.2857 |
 
 <br>
+
 ## **IV. Related Work (Ex. existing studies)**
 
 ---
@@ -178,6 +181,7 @@ Tech blog link : https://url.kr/qhn9ab
         [RoBERTa: A Robustly Optimized BERT Pretraining Approach](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/609a64ef-f9b1-4914-a040-5327a3be0d7b/1907.11692.pdf)
         
 <br>
+
 ## **V. Conclusion: Discussion**
 
 ---
