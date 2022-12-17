@@ -5,7 +5,7 @@ Tech blog link : https://url.kr/qhn9ab
 
 ---
 
-- **일상 타임라인 기반 Datasets 직접 제작 (약, 1500개)**
+- **일상 타임라인 기반 Datasets 직접 제작 (약, 6621개)**
     - Reason 1 : 사용자가 시간대별로 무슨 일이 있었는지 가볍게 이야기 하는 일상 타임라인에 대한 데이터가 절대적으로 부족함
     - Reason 2 : 저작권 문제를 해결할 수 있는 충분한 타임라인 Dataset이 존재하지 않음
     
@@ -44,11 +44,11 @@ Tech blog link : https://url.kr/qhn9ab
     
 - **Question & Answer Labeling 데이터를 통한 데이터셋 Augmentation**
     1. (기존 Q&A 라벨링된 데이터를 활용하여) Question이 뽑히는 규칙 확인
-        1. 학습 데이터 셋 비율 (Train : 80% / Val : 10% / Test : 10%)
+        1. 학습 데이터 셋 비율 (Train : 90% / Test : 10%)
         2. Question이 뽑히는 규칙 학습 (RoBERTa 모델) 
         3. Question Extenstion → Data Augmentation
     2.  (기존 Q&A 라벨링된 데이터를 활용하여) Answer이 뽑히는 규칙 확인
-        1. 학습 데이터 셋 비율 (Train : 80% / Val : 10% / Test : 10%)
+        1. 학습 데이터 셋 비율 (Train : 90% / Test : 10%)
         2. Answer이 뽑히는 규칙 학습 (RoBERTa 모델)
         3. Answer Extenstion → Data Augmentation
         
@@ -62,7 +62,11 @@ Tech blog link : https://url.kr/qhn9ab
 
 **✓ 데이터 셋 구축 개수 : 110개의 타임라인 데이터를 六何原則(육하원칙)별로 나눈  651개의 지문**
 
-**✓ 데이터 셋 개수 : 지문(Context)-질문(Question)-답변(Answer)형식의 MRC(주어진 상황에서 질의응답함) 데이터**
+**✓ 데이터 셋 개수 : 지문(Context)-질문(Question)-답변(Answer)형식의 MRC(주어진 상황에서 질의응답 함) 데이터**
+
+- KorQuAD Data : Overall_data : 70,079개, Train_data : 60,407개, Dev_data : 5,774개, Test_data : 3,898개
+- Our Data : Overall_data : 6621개, Train_data : 5959개, Test_data : 670개
+- Our LG Data : Overall_data : 648개
 
 ## **II. Methodology**
 
